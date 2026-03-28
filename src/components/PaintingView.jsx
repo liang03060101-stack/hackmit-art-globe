@@ -88,7 +88,8 @@ export default function PaintingView({ art, onBack, aiWhisper, isFetching, onAsk
           will-change: transform;
         }
 
-        .parallax-year { transform: rotate(180deg) translate(calc(var(--my) * -18px), calc(var(--mx) * 18px)); }
+        /* Updated Year Physics to maintain original movement feel */
+        .parallax-year-container { transform: translate(calc(var(--mx) * -18px), calc(var(--my) * 18px)); }
         .parallax-location { transform: translate(calc(var(--mx) * 25px), calc(var(--my) * 25px)); }
         .parallax-glow { transform: scale(1.2) translate(calc(var(--mx) * -50px), calc(var(--my) * -50px)); }
         .parallax-about { transform: translate(calc(var(--mx) * 16px), calc(var(--my) * 16px)); }
@@ -121,19 +122,36 @@ export default function PaintingView({ art, onBack, aiWhisper, isFetching, onAsk
           &#8592; Globe
         </button>
 
+        {/* YEAR BLOCK: Now matches Location formatting */}
         <div 
-          className="parallax-layer parallax-year"
+          className="parallax-layer parallax-year-container"
           style={{
-            writingMode: 'vertical-rl', textOrientation: 'mixed',
-            fontFamily: FONTS_SANS, fontSize: 10,
-            // Increased brightness for the year
-            color: 'rgba(245,237,228,0.55)', letterSpacing: '3px',
-            textTransform: 'uppercase', marginBottom: 16, userSelect: 'none',
+            width: '100%',
+            maxWidth: 260,
+            border: 'none',
+            borderRadius: 10,
+            padding: '10px 10px 8px',
+            background: 'rgba(200,149,108,0.015)',
+            marginBottom: 12,
           }}
         >
-          {art.year}
+          <div style={{
+            fontFamily: FONTS_SANS, fontSize: 9.5,
+            color: 'rgba(200,149,108,0.42)', letterSpacing: '1.6px',
+            textTransform: 'uppercase', textAlign: 'right', marginBottom: 6,
+          }}>
+            Year
+          </div>
+          <div style={{
+            fontFamily: FONTS_SANS, fontSize: 12.5,
+            color: 'rgba(245,237,228,0.55)', textAlign: 'right',
+            letterSpacing: '1px',
+          }}>
+            {art.year}
+          </div>
         </div>
 
+        {/* LOCATION BLOCK */}
         <div 
           className="parallax-layer parallax-location"
           style={{
@@ -158,7 +176,6 @@ export default function PaintingView({ art, onBack, aiWhisper, isFetching, onAsk
           }}>{art.museum}</div>
           <div style={{
             fontFamily: FONTS_SANS, fontSize: 12,
-            // Increased brightness for the city
             color: 'rgba(245,237,228,0.55)', textAlign: 'right',
           }}>{art.city}</div>
         </div>
@@ -272,7 +289,6 @@ export default function PaintingView({ art, onBack, aiWhisper, isFetching, onAsk
           <div
             style={{
               fontFamily: FONTS_SANS, fontSize: 12.5, lineHeight: 1.75,
-              // Slightly dimmed for better reading comfort
               color: 'rgba(245,237,228,0.65)',
             }}
           >
@@ -308,7 +324,6 @@ export default function PaintingView({ art, onBack, aiWhisper, isFetching, onAsk
           <div style={{
             fontFamily: FONTS, fontSize: 15.5, lineHeight: 1.8,
             fontStyle: 'italic', 
-            // Dimmed to match the About section
             color: 'rgba(232,213,191,0.65)', 
             minHeight: 44,
           }}>
