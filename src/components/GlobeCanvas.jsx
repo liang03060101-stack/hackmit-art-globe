@@ -49,7 +49,7 @@ export default function GlobeCanvas({ artData, onPointClick, selectedArt }) {
     container.appendChild(renderer.domElement);
 
     scene.add(new THREE.AmbientLight(0xF5E6D3, 0.7));
-    const dirLight = new THREE.DirectionalLight(0xFFE4C4, 0.13);
+    const dirLight = new THREE.DirectionalLight(0xFFE4C4, 0.45);
     dirLight.position.set(5, 3, 5);
     scene.add(dirLight);
     const rimLight = new THREE.DirectionalLight(0xC8956C, 0.35);
@@ -68,10 +68,10 @@ export default function GlobeCanvas({ artData, onPointClick, selectedArt }) {
         
         // 👇 关键：加一点暖色的自发光，让暗部也带点温度
         emissive: new THREE.Color(0x332211), 
-        emissiveIntensity: 0.3,
+        emissiveIntensity: 0.1,
 
         specular: new THREE.Color(0xC8956C),
-        shininess: 14,
+        shininess: 30,
     });
     const globeMesh = new THREE.Mesh(globeGeo, globeMat);
     scene.add(globeMesh);
