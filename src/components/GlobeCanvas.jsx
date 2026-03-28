@@ -49,7 +49,7 @@ export default function GlobeCanvas({ artData, onPointClick, selectedArt }) {
     container.appendChild(renderer.domElement);
 
     scene.add(new THREE.AmbientLight(0xF5E6D3, 0.7));
-    const dirLight = new THREE.DirectionalLight(0xFFE4C4, 1.0);
+    const dirLight = new THREE.DirectionalLight(0xFFE4C4, 0.1);
     dirLight.position.set(5, 3, 5);
     scene.add(dirLight);
     const rimLight = new THREE.DirectionalLight(0xC8956C, 0.35);
@@ -449,51 +449,7 @@ export default function GlobeCanvas({ artData, onPointClick, selectedArt }) {
       <div ref={mountRef} style={{ width: '100%', height: '100%' }} />
 
       {/* Reset view button — appears when zoom or tilt has drifted from default */}
-      {showReset && (
-        <button
-          onClick={handleResetView}
-          style={{
-            position: 'absolute',
-            bottom: 88,   // above the gallery strip
-            left: '50%',
-            transform: 'translateX(-50%)',
-            zIndex: 20,
-            display: 'flex', alignItems: 'center', gap: 7,
-            background: 'rgba(22, 18, 12, 0.82)',
-            border: '1px solid rgba(200,149,108,0.3)',
-            borderRadius: 20,
-            padding: '7px 18px',
-            color: 'rgba(226,189,148,0.85)',
-            fontSize: 11,
-            fontFamily: FONTS_SANS,
-            fontWeight: 500,
-            letterSpacing: '1.4px',
-            textTransform: 'uppercase',
-            cursor: 'pointer',
-            backdropFilter: 'blur(12px)',
-            WebkitBackdropFilter: 'blur(12px)',
-            boxShadow: '0 4px 20px rgba(0,0,0,0.4)',
-            transition: 'all 0.2s',
-            animation: 'resetFadeIn 0.25s ease both',
-          }}
-          onMouseEnter={e => {
-            e.currentTarget.style.background = 'rgba(200,149,108,0.18)';
-            e.currentTarget.style.borderColor = 'rgba(200,149,108,0.6)';
-            e.currentTarget.style.color = '#E2BD94';
-          }}
-          onMouseLeave={e => {
-            e.currentTarget.style.background = 'rgba(22,18,12,0.82)';
-            e.currentTarget.style.borderColor = 'rgba(200,149,108,0.3)';
-            e.currentTarget.style.color = 'rgba(226,189,148,0.85)';
-          }}
-        >
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style={{ opacity: 0.8 }}>
-            <path d="M6 1.5A4.5 4.5 0 1 0 10.5 6" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
-            <path d="M10.5 2.5V6H7" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-          Reset View
-        </button>
-      )}
+      
 
       <style>{`
         @keyframes resetFadeIn {
@@ -501,6 +457,37 @@ export default function GlobeCanvas({ artData, onPointClick, selectedArt }) {
           to   { opacity: 1; transform: translateX(-50%) translateY(0); }
         }
       `}</style>
+      {/* 右下角版本与版权信息 */}
+      <div style={{
+        position: 'absolute',
+        bottom: 24,
+        right: 28,
+        textAlign: 'right',
+        pointerEvents: 'none',
+        zIndex: 10,
+        opacity: 0.4, // 保持低调的半透明感
+      }}>
+        <div style={{
+          fontFamily: FONTS_SANS,
+          fontSize: 9,
+          color: 'rgba(200, 149, 108, 0.8)',
+          letterSpacing: '2px',
+          textTransform: 'uppercase',
+          marginBottom: 4,
+        }}>
+          ArtGlobe · Concept v1.0
+        </div>
+        <div style={{
+          fontFamily: FONTS_SANS,
+          fontSize: 8,
+          color: 'rgba(245, 237, 228, 0.3)',
+          letterSpacing: '1px',
+          textTransform: 'uppercase',
+        }}>
+          HackMIT 2026 · Build Alpha
+        </div>
+      </div>
     </div>
+    
   );
 }
