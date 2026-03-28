@@ -3,7 +3,7 @@ import * as THREE from 'three';
 
 /* ═══════════════════════════════════════════════════════
    ART GLOBE — World Masterpieces × AI Artist Dialogue
-   Museum-inspired warm aesthetic
+   Museum-inspired warm aesthetic  (v2 optimized)
    ═══════════════════════════════════════════════════════ */
 
 const THEME = {
@@ -26,48 +26,78 @@ const THEME = {
 const FONTS = `'Cormorant Garamond', 'Playfair Display', Georgia, serif`;
 const FONTS_SANS = `'DM Sans', 'Helvetica Neue', sans-serif`;
 
-// ─── Art Data ───
+// ─── Art Data with extra city info ───
 const ART_DATA = [
   {
     id: 1, lat: 48.8566, lng: 2.3522, city: 'Paris', museum: 'Musée du Louvre',
     title: 'Mona Lisa', artist: 'Leonardo da Vinci', year: '1503–1519',
     img: 'https://wsrv.nl/?url=upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg/800px-Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg&w=600&output=webp',
     desc: 'The most famous painting in the world, housed in the Louvre. A masterpiece of Renaissance sfumato technique and psychological depth.',
+    cityInfo: {
+      otherWorks: ['Winged Victory of Samothrace', 'Venus de Milo', 'Liberty Leading the People'],
+      museums: ['Louvre', "Musée d'Orsay", 'Centre Pompidou'],
+      artFact: 'Paris houses over 130 museums — the densest concentration in any city worldwide.',
+    },
   },
   {
     id: 2, lat: 40.7614, lng: -73.9776, city: 'New York', museum: 'MoMA',
     title: 'The Starry Night', artist: 'Vincent van Gogh', year: '1889',
     img: 'https://wsrv.nl/?url=upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/1280px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg&w=600&output=webp',
-    desc: 'Painted during Van Gogh\'s stay at Saint-Rémy asylum. The swirling night sky pulses with emotion and cosmic energy.',
+    desc: "Painted during Van Gogh's stay at Saint-Rémy asylum. The swirling night sky pulses with emotion and cosmic energy.",
+    cityInfo: {
+      otherWorks: ["Les Demoiselles d'Avignon", "Campbell's Soup Cans", 'Washington Crossing the Delaware'],
+      museums: ['MoMA', 'The Met', 'Guggenheim'],
+      artFact: 'The Met is the largest art museum in the Americas, with over 2 million works spanning 5,000 years.',
+    },
   },
   {
     id: 3, lat: 35.7150, lng: 139.7734, city: 'Tokyo', museum: 'Various Collections',
     title: 'The Great Wave off Kanagawa', artist: 'Katsushika Hokusai', year: '1831',
     img: 'https://wsrv.nl/?url=upload.wikimedia.org/wikipedia/commons/thumb/0/0a/The_Great_Wave_off_Kanagawa.jpg/1280px-The_Great_Wave_off_Kanagawa.jpg&w=600&output=webp',
     desc: 'The most iconic ukiyo-e woodblock print. Mount Fuji stands serene as towering waves crash with terrifying beauty.',
+    cityInfo: {
+      otherWorks: ['Fine Wind, Clear Morning (Red Fuji)', 'Thirty-six Views of Mt. Fuji series', 'Edo-period screen paintings'],
+      museums: ['Tokyo National Museum', 'Mori Art Museum', 'teamLab Borderless'],
+      artFact: 'Hokusai created over 30,000 works across 70 years — he didn\'t consider his work worthy until age 73.',
+    },
   },
   {
     id: 4, lat: 52.0804, lng: 4.3143, city: 'The Hague', museum: 'Mauritshuis',
     title: 'Girl with a Pearl Earring', artist: 'Johannes Vermeer', year: '1665',
     img: 'https://wsrv.nl/?url=upload.wikimedia.org/wikipedia/commons/thumb/0/0f/1665_Girl_with_a_Pearl_Earring.jpg/800px-1665_Girl_with_a_Pearl_Earring.jpg&w=600&output=webp',
     desc: 'Called the "Mona Lisa of the North." Vermeer\'s mastery of light culminates in the luminous pearl and the girl\'s enigmatic gaze.',
+    cityInfo: {
+      otherWorks: ['The Anatomy Lesson of Dr. Nicolaes Tulp', 'The Goldfinch', 'View of Delft'],
+      museums: ['Mauritshuis', 'Escher in Het Paleis', 'Gemeentemuseum'],
+      artFact: 'Vermeer produced only about 34 paintings in his lifetime — each one a jewel of light.',
+    },
   },
   {
     id: 5, lat: 40.4083, lng: -3.6946, city: 'Madrid', museum: 'Museo Reina Sofía',
     title: 'Guernica', artist: 'Pablo Picasso', year: '1937',
     img: 'https://wsrv.nl/?url=upload.wikimedia.org/wikipedia/en/7/74/PicassoGuernica.jpg&w=600&output=webp',
-    desc: 'A monumental anti-war statement. Picasso\'s Cubist language transforms the bombing of Guernica into a universal cry against violence.',
+    desc: "A monumental anti-war statement. Picasso's Cubist language transforms the bombing of Guernica into a universal cry against violence.",
+    cityInfo: {
+      otherWorks: ['Las Meninas', 'The Garden of Earthly Delights', 'The Third of May 1808'],
+      museums: ['Reina Sofía', 'Museo del Prado', 'Thyssen-Bornemisza'],
+      artFact: 'Madrid\'s "Golden Triangle of Art" — Prado, Reina Sofía, Thyssen — holds over 20,000 masterpieces within 1km.',
+    },
   },
   {
     id: 6, lat: 55.7520, lng: 37.6175, city: 'Moscow', museum: 'Tretyakov Gallery',
     title: 'The Ninth Wave', artist: 'Ivan Aivazovsky', year: '1850',
     img: 'https://wsrv.nl/?url=upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Hovhannes_Aivazovsky_-_The_Ninth_Wave_-_Google_Art_Project.jpg/1280px-Hovhannes_Aivazovsky_-_The_Ninth_Wave_-_Google_Art_Project.jpg&w=600&output=webp',
     desc: 'A Romantic masterpiece depicting survivors clinging to wreckage as dawn breaks over monstrous waves. Hope persists amid catastrophe.',
+    cityInfo: {
+      otherWorks: ['Morning in a Pine Forest', 'The Rooks Have Come Back', 'Black Square'],
+      museums: ['Tretyakov Gallery', 'Pushkin Museum', 'Garage Museum'],
+      artFact: 'Aivazovsky painted over 6,000 works — nearly all seascapes — making him one of the most prolific artists in history.',
+    },
   },
 ];
 
 // ─── Typing animation hook ───
-function useTypingEffect(text, speed = 22) {
+function useTypingEffect(text, speed = 18) {
   const [displayed, setDisplayed] = useState('');
   const [done, setDone] = useState(false);
   useEffect(() => {
@@ -94,10 +124,19 @@ function LoadingDots() {
 }
 
 // ═══════════════════════════════════════
-// THREE.JS GLOBE — warm museum style
+// THREE.JS GLOBE — stops on selection, city popup
 // ═══════════════════════════════════════
-function GlobeCanvas({ artData, onPointClick }) {
+function GlobeCanvas({ artData, onPointClick, selectedArt, showCityPopup }) {
   const mountRef = useRef(null);
+  const globeRef = useRef(null);
+  const selectedRef = useRef(null);
+  const autoRotateRef = useRef(true);
+
+  // Keep refs in sync
+  useEffect(() => {
+    selectedRef.current = selectedArt;
+    autoRotateRef.current = !selectedArt;
+  }, [selectedArt]);
 
   useEffect(() => {
     const container = mountRef.current;
@@ -114,7 +153,6 @@ function GlobeCanvas({ artData, onPointClick }) {
     renderer.setClearColor(0x000000, 0);
     container.appendChild(renderer.domElement);
 
-    // Warm museum lighting
     scene.add(new THREE.AmbientLight(0xF5E6D3, 0.7));
     const dirLight = new THREE.DirectionalLight(0xFFE4C4, 1.0);
     dirLight.position.set(5, 3, 5);
@@ -123,7 +161,6 @@ function GlobeCanvas({ artData, onPointClick }) {
     rimLight.position.set(-3, -1, -3);
     scene.add(rimLight);
 
-    // Globe with blue marble texture (brighter)
     const globeGeo = new THREE.SphereGeometry(1, 64, 64);
     const textureLoader = new THREE.TextureLoader();
     const globeTex = textureLoader.load('https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg');
@@ -134,8 +171,8 @@ function GlobeCanvas({ artData, onPointClick }) {
     });
     const globeMesh = new THREE.Mesh(globeGeo, globeMat);
     scene.add(globeMesh);
+    globeRef.current = globeMesh;
 
-    // Warm atmosphere glow
     const atmosGeo = new THREE.SphereGeometry(1.06, 64, 64);
     const atmosMat = new THREE.ShaderMaterial({
       vertexShader: `varying vec3 vNormal; void main() { vNormal = normalize(normalMatrix * normal); gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`,
@@ -144,7 +181,6 @@ function GlobeCanvas({ artData, onPointClick }) {
     });
     scene.add(new THREE.Mesh(atmosGeo, atmosMat));
 
-    // Art location markers
     const markers = [];
     artData.forEach(art => {
       const phi = (90 - art.lat) * (Math.PI / 180);
@@ -154,7 +190,6 @@ function GlobeCanvas({ artData, onPointClick }) {
       const y = R * Math.cos(phi);
       const z = R * Math.sin(phi) * Math.sin(theta);
 
-      // Main dot
       const dotGeo = new THREE.CircleGeometry(0.022, 20);
       const dotMat = new THREE.MeshBasicMaterial({ color: 0xD4A54A, side: THREE.DoubleSide });
       const dot = new THREE.Mesh(dotGeo, dotMat);
@@ -163,7 +198,6 @@ function GlobeCanvas({ artData, onPointClick }) {
       dot.userData = art;
       globeMesh.add(dot);
 
-      // Ring
       const ringGeo = new THREE.RingGeometry(0.03, 0.042, 28);
       const ringMat = new THREE.MeshBasicMaterial({ color: 0xC8956C, side: THREE.DoubleSide, transparent: true, opacity: 0.7 });
       const ring = new THREE.Mesh(ringGeo, ringMat);
@@ -171,7 +205,6 @@ function GlobeCanvas({ artData, onPointClick }) {
       ring.lookAt(0, 0, 0);
       globeMesh.add(ring);
 
-      // Pulse
       const pulseGeo = new THREE.RingGeometry(0.042, 0.05, 28);
       const pulseMat = new THREE.MeshBasicMaterial({ color: 0xD4A54A, side: THREE.DoubleSide, transparent: true, opacity: 0.4 });
       const pulse = new THREE.Mesh(pulseGeo, pulseMat);
@@ -179,10 +212,9 @@ function GlobeCanvas({ artData, onPointClick }) {
       pulse.lookAt(0, 0, 0);
       globeMesh.add(pulse);
 
-      markers.push({ dot, ring, pulse });
+      markers.push({ dot, ring, pulse, art });
     });
 
-    // Interaction state
     const raycaster = new THREE.Raycaster();
     const mouse = new THREE.Vector2();
     let isDragging = false;
@@ -231,22 +263,33 @@ function GlobeCanvas({ artData, onPointClick }) {
     container.addEventListener('touchmove', onPointerMove, { passive: false });
     container.addEventListener('touchend', onPointerUp);
 
-    // Animate
     let frameId;
     const clock = new THREE.Clock();
     const animate = () => {
       frameId = requestAnimationFrame(animate);
       const t = clock.getElapsedTime();
 
-      if (!isDragging) {
+      if (!isDragging && autoRotateRef.current) {
         globeMesh.rotation.y += 0.0012 + rotVelY;
         rotVelY *= 0.96;
+      } else if (!isDragging) {
+        // When selected, gently dampen velocity
+        rotVelY *= 0.92;
+        if (Math.abs(rotVelY) > 0.0001) {
+          globeMesh.rotation.y += rotVelY;
+        }
       }
 
+      // Highlight selected marker
       markers.forEach((m, i) => {
-        const s = 1 + 0.35 * Math.sin(t * 2.2 + i * 1.1);
+        const isSelected = selectedRef.current?.id === m.art.id;
+        const baseScale = isSelected ? 1.8 : 1;
+        const pulseAmp = isSelected ? 0.6 : 0.35;
+        const s = baseScale + pulseAmp * Math.sin(t * (isSelected ? 3.5 : 2.2) + i * 1.1);
         m.pulse.scale.set(s, s, s);
-        m.pulse.material.opacity = 0.4 * (1 - (s - 1) / 0.35);
+        m.pulse.material.opacity = isSelected ? 0.7 * (1 - (s - baseScale) / pulseAmp) : 0.4 * (1 - (s - 1) / 0.35);
+        m.dot.material.color.setHex(isSelected ? 0xFFD700 : 0xD4A54A);
+        m.ring.material.opacity = isSelected ? 1 : 0.7;
       });
 
       renderer.render(scene, camera);
@@ -275,14 +318,75 @@ function GlobeCanvas({ artData, onPointClick }) {
     };
   }, []);
 
-  return <div ref={mountRef} style={{ width: '100%', height: '100%', cursor: 'grab' }} />;
+  return <div ref={mountRef} style={{ width: '100%', height: '100%', cursor: selectedArt ? 'default' : 'grab' }} />;
 }
 
 // ═══════════════════════════════════════
-// SIDE PANEL — Large art display
+// CITY INFO POPUP — shows on globe selection
+// ═══════════════════════════════════════
+function CityPopup({ art, onClose }) {
+  if (!art?.cityInfo) return null;
+  return (
+    <div style={{
+      position: 'absolute', top: '50%', left: '50%',
+      transform: 'translate(-80%, -60%)',
+      zIndex: 18, width: 280,
+      background: THEME.bgPanel,
+      backdropFilter: 'blur(30px)', WebkitBackdropFilter: 'blur(30px)',
+      border: `1px solid ${THEME.borderLight}`,
+      borderRadius: 16, padding: '18px 20px',
+      boxShadow: '0 12px 48px rgba(0,0,0,0.6)',
+      animation: 'popIn 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+    }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+        <div style={{
+          fontFamily: FONTS, fontSize: 18, fontWeight: 600, color: THEME.accentLight,
+        }}>📍 {art.city}</div>
+      </div>
+
+      <div style={{ marginBottom: 14 }}>
+        <div style={{
+          fontFamily: FONTS_SANS, fontSize: 10, color: THEME.accent,
+          textTransform: 'uppercase', letterSpacing: '1.5px', marginBottom: 6, fontWeight: 600,
+        }}>Museums</div>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+          {art.cityInfo.museums.map((m, i) => (
+            <span key={i} style={{
+              fontFamily: FONTS_SANS, fontSize: 11, color: THEME.textWarm,
+              background: 'rgba(200,149,108,0.1)', border: `1px solid ${THEME.border}`,
+              borderRadius: 6, padding: '3px 8px',
+            }}>{m}</span>
+          ))}
+        </div>
+      </div>
+
+      <div style={{ marginBottom: 14 }}>
+        <div style={{
+          fontFamily: FONTS_SANS, fontSize: 10, color: THEME.accent,
+          textTransform: 'uppercase', letterSpacing: '1.5px', marginBottom: 6, fontWeight: 600,
+        }}>Other Masterpieces Here</div>
+        {art.cityInfo.otherWorks.map((w, i) => (
+          <div key={i} style={{
+            fontFamily: FONTS, fontSize: 13, color: THEME.textMain,
+            padding: '3px 0', fontStyle: 'italic', opacity: 0.85,
+          }}>• {w}</div>
+        ))}
+      </div>
+
+      <div style={{
+        fontFamily: FONTS_SANS, fontSize: 11.5, color: THEME.textSec,
+        lineHeight: 1.6, fontStyle: 'italic',
+        borderTop: `1px solid ${THEME.border}`, paddingTop: 10,
+      }}>{art.cityInfo.artFact}</div>
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════
+// SIDE PANEL — Optimized
 // ═══════════════════════════════════════
 function ArtPanel({ art, onClose, aiWhisper, isFetching, onAsk, userQ, setUserQ }) {
-  const { displayed, done } = useTypingEffect(aiWhisper, 22);
+  const { displayed, done } = useTypingEffect(aiWhisper, 18);
   const [imgLoaded, setImgLoaded] = useState(false);
 
   useEffect(() => { setImgLoaded(false); }, [art?.id]);
@@ -292,7 +396,7 @@ function ArtPanel({ art, onClose, aiWhisper, isFetching, onAsk, userQ, setUserQ 
   return (
     <div style={{
       position: 'absolute', top: 0, right: 0,
-      width: '480px', maxWidth: '100vw', height: '100%',
+      width: '440px', maxWidth: '100vw', height: '100%',
       background: THEME.bgPanel,
       backdropFilter: 'blur(40px)', WebkitBackdropFilter: 'blur(40px)',
       borderLeft: `1px solid ${THEME.border}`,
@@ -301,12 +405,11 @@ function ArtPanel({ art, onClose, aiWhisper, isFetching, onAsk, userQ, setUserQ 
       animation: 'slideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
       overflowY: 'auto', overflowX: 'hidden',
     }}>
-      {/* Close */}
       <button onClick={onClose} style={{
-        position: 'sticky', top: 14, marginLeft: 'auto', marginRight: 14,
+        position: 'sticky', top: 12, marginLeft: 'auto', marginRight: 12,
         background: 'rgba(28,24,18,0.8)', border: `1px solid ${THEME.borderLight}`,
-        borderRadius: '50%', width: 40, height: 40,
-        color: THEME.accentLight, fontSize: 18, cursor: 'pointer', zIndex: 30,
+        borderRadius: '50%', width: 36, height: 36,
+        color: THEME.accentLight, fontSize: 16, cursor: 'pointer', zIndex: 30,
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         transition: 'all 0.25s', flexShrink: 0,
       }}
@@ -314,20 +417,20 @@ function ArtPanel({ art, onClose, aiWhisper, isFetching, onAsk, userQ, setUserQ 
         onMouseLeave={e => { e.currentTarget.style.background = 'rgba(28,24,18,0.8)'; e.currentTarget.style.transform = 'scale(1)'; }}
       >✕</button>
 
-      {/* ═══ LARGE Art Image — objectFit contain, generous height ═══ */}
+      {/* Art Image — slightly tighter */}
       <div style={{
-        position: 'relative', marginTop: -40, flexShrink: 0,
+        position: 'relative', marginTop: -36, flexShrink: 0,
         background: '#0F0D08',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
-        minHeight: '46vh', maxHeight: '52vh', overflow: 'hidden',
+        minHeight: '38vh', maxHeight: '44vh', overflow: 'hidden',
         borderBottom: `1px solid ${THEME.border}`,
       }}>
         <img
           src={art.img} alt={art.title}
           onLoad={() => setImgLoaded(true)}
           style={{
-            maxWidth: '94%', maxHeight: '50vh', objectFit: 'contain',
-            padding: 16, opacity: imgLoaded ? 1 : 0,
+            maxWidth: '94%', maxHeight: '42vh', objectFit: 'contain',
+            padding: 12, opacity: imgLoaded ? 1 : 0,
             transition: 'opacity 0.6s ease',
             filter: 'drop-shadow(0 4px 24px rgba(0,0,0,0.6))',
           }}
@@ -335,75 +438,75 @@ function ArtPanel({ art, onClose, aiWhisper, isFetching, onAsk, userQ, setUserQ 
         <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', boxShadow: 'inset 0 0 80px rgba(0,0,0,0.4)' }} />
       </div>
 
-      {/* Info */}
-      <div style={{ padding: '24px 28px 28px', flexShrink: 0 }}>
+      {/* Info — tighter padding */}
+      <div style={{ padding: '18px 24px 24px', flexShrink: 0 }}>
         <div style={{
-          display: 'inline-flex', alignItems: 'center', gap: 6,
+          display: 'inline-flex', alignItems: 'center', gap: 5,
           background: THEME.accentDim, border: `1px solid ${THEME.border}`,
-          borderRadius: 20, padding: '5px 16px', fontSize: 11,
-          color: THEME.accentLight, letterSpacing: '0.5px', marginBottom: 16,
+          borderRadius: 16, padding: '4px 12px', fontSize: 10.5,
+          color: THEME.accentLight, letterSpacing: '0.5px', marginBottom: 12,
           fontFamily: FONTS_SANS, textTransform: 'uppercase', fontWeight: 500,
         }}>
-          <span style={{ fontSize: 13 }}>📍</span> {art.city} · {art.museum}
+          <span style={{ fontSize: 12 }}>📍</span> {art.city} · {art.museum}
         </div>
 
         <h2 style={{
-          fontFamily: FONTS, fontSize: 32, margin: '0 0 6px',
+          fontFamily: FONTS, fontSize: 28, margin: '0 0 4px',
           fontWeight: 600, lineHeight: 1.15, color: THEME.textMain,
         }}>{art.title}</h2>
         <p style={{
-          fontFamily: FONTS_SANS, color: THEME.accent, fontSize: 14,
-          margin: '0 0 20px', fontWeight: 500,
+          fontFamily: FONTS_SANS, color: THEME.accent, fontSize: 13,
+          margin: '0 0 14px', fontWeight: 500,
         }}>
           {art.artist}<span style={{ opacity: 0.5, fontWeight: 400 }}> · {art.year}</span>
         </p>
 
         <div style={{
-          width: 56, height: 2, marginBottom: 18,
+          width: 48, height: 2, marginBottom: 12,
           background: `linear-gradient(90deg, ${THEME.accentGold}, transparent)`,
         }} />
 
         <p style={{
-          fontFamily: FONTS_SANS, color: THEME.textSec, fontSize: 13.5,
-          lineHeight: 1.75, margin: '0 0 24px',
+          fontFamily: FONTS_SANS, color: THEME.textSec, fontSize: 12.5,
+          lineHeight: 1.7, margin: '0 0 18px',
         }}>{art.desc}</p>
 
-        {/* ═══ AI Whisper ═══ */}
+        {/* AI Whisper */}
         <div style={{
           background: 'rgba(200, 149, 108, 0.06)',
           border: `1px solid ${THEME.border}`,
-          borderRadius: 14, padding: 22, marginBottom: 16,
+          borderRadius: 12, padding: 18, marginBottom: 14,
           position: 'relative', overflow: 'hidden',
         }}>
           <div style={{
-            position: 'absolute', top: 0, right: 0, width: 60, height: 60,
+            position: 'absolute', top: 0, right: 0, width: 50, height: 50,
             background: 'linear-gradient(135deg, rgba(200,149,108,0.08), transparent)',
-            borderRadius: '0 14px 0 0',
+            borderRadius: '0 12px 0 0',
           }} />
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
             <div style={{
-              width: 10, height: 10, borderRadius: '50%',
+              width: 8, height: 8, borderRadius: '50%',
               background: isFetching ? `radial-gradient(${THEME.accentGold}, ${THEME.accent})` : (aiWhisper ? '#7BAF5E' : THEME.accent),
               animation: isFetching ? 'pulse 1s infinite' : 'none',
-              boxShadow: isFetching ? `0 0 12px ${THEME.accent}` : 'none',
+              boxShadow: isFetching ? `0 0 10px ${THEME.accent}` : 'none',
             }} />
             <span style={{
-              fontFamily: FONTS_SANS, fontSize: 11, color: THEME.accentLight,
-              textTransform: 'uppercase', letterSpacing: '2px', fontWeight: 600,
+              fontFamily: FONTS_SANS, fontSize: 10, color: THEME.accentLight,
+              textTransform: 'uppercase', letterSpacing: '1.5px', fontWeight: 600,
             }}>
-              {isFetching ? 'Channeling the artist' : "Artist's Whisper"}
+              {isFetching ? 'Channeling the artist...' : "Artist's Whisper"}
             </span>
           </div>
           <div style={{
-            fontFamily: FONTS, fontSize: 16, lineHeight: 1.75,
-            fontStyle: 'italic', color: THEME.textWarm, minHeight: 50,
+            fontFamily: FONTS, fontSize: 15, lineHeight: 1.7,
+            fontStyle: 'italic', color: THEME.textWarm, minHeight: 40,
           }}>
             {isFetching ? (
               <span style={{ color: THEME.textSec }}>Reaching across centuries<LoadingDots /></span>
             ) : (
               displayed
                 ? <span>&ldquo;{displayed}{done ? '\u201D' : ''}</span>
-                : <span style={{ color: THEME.textSec, fontStyle: 'normal', fontSize: 13.5 }}>Ask the artist a question below...</span>
+                : <span style={{ color: THEME.textSec, fontStyle: 'normal', fontSize: 12.5 }}>Ask the artist a question below...</span>
             )}
           </div>
         </div>
@@ -415,19 +518,19 @@ function ArtPanel({ art, onClose, aiWhisper, isFetching, onAsk, userQ, setUserQ 
             onKeyDown={e => e.key === 'Enter' && !isFetching && userQ.trim() && onAsk()}
             placeholder={`Ask ${art.artist.split(' ').pop()} something...`}
             style={{
-              flex: 1, padding: '12px 16px',
+              flex: 1, padding: '10px 14px',
               background: 'rgba(255,255,255,0.05)', border: `1px solid ${THEME.border}`,
               borderRadius: 10, color: THEME.textMain,
-              fontFamily: FONTS_SANS, fontSize: 13.5, outline: 'none', transition: 'border 0.25s',
+              fontFamily: FONTS_SANS, fontSize: 13, outline: 'none', transition: 'border 0.25s',
             }}
             onFocus={e => e.target.style.borderColor = THEME.accent}
             onBlur={e => e.target.style.borderColor = THEME.border}
           />
           <button onClick={onAsk} disabled={isFetching || !userQ.trim()} style={{
-            padding: '12px 22px',
+            padding: '10px 18px',
             background: `linear-gradient(135deg, ${THEME.accent}, ${THEME.accentGold})`,
             border: 'none', borderRadius: 10, color: '#1A1510',
-            fontFamily: FONTS_SANS, fontSize: 13, fontWeight: 700,
+            fontFamily: FONTS_SANS, fontSize: 12.5, fontWeight: 700,
             cursor: isFetching ? 'wait' : 'pointer', transition: 'all 0.25s',
             opacity: (!userQ.trim() || isFetching) ? 0.4 : 1, whiteSpace: 'nowrap',
             boxShadow: (!userQ.trim() || isFetching) ? 'none' : '0 4px 16px rgba(200,149,108,0.3)',
@@ -439,7 +542,7 @@ function ArtPanel({ art, onClose, aiWhisper, isFetching, onAsk, userQ, setUserQ 
 }
 
 // ═══════════════════════════════════════
-// BOTTOM GALLERY — Rich art cards
+// BOTTOM GALLERY — Tighter margins
 // ═══════════════════════════════════════
 function ArtGallery({ artData, onSelect, selectedId }) {
   const [hovered, setHovered] = useState(null);
@@ -448,10 +551,10 @@ function ArtGallery({ artData, onSelect, selectedId }) {
     <div style={{
       position: 'absolute', bottom: 0, left: 0, right: 0, zIndex: 15,
       background: 'linear-gradient(transparent, rgba(20,17,12,0.85) 30%, rgba(20,17,12,0.96))',
-      padding: '40px 0 20px',
+      padding: '28px 0 12px',
     }}>
       <div style={{
-        display: 'flex', gap: 14, padding: '0 24px',
+        display: 'flex', gap: 10, padding: '0 16px',
         overflowX: 'auto', overflowY: 'hidden',
         scrollbarWidth: 'none', msOverflowStyle: 'none',
         justifyContent: 'center',
@@ -464,20 +567,20 @@ function ArtGallery({ artData, onSelect, selectedId }) {
               onMouseEnter={() => setHovered(art.id)}
               onMouseLeave={() => setHovered(null)}
               style={{
-                flexShrink: 0, width: 160, padding: 0,
+                flexShrink: 0, width: 144, padding: 0,
                 background: isSelected ? THEME.bgCard : 'rgba(30, 26, 20, 0.7)',
                 border: isSelected ? `2px solid ${THEME.accent}` : `1px solid ${isHover ? THEME.borderLight : THEME.border}`,
-                borderRadius: 14, overflow: 'hidden', cursor: 'pointer',
+                borderRadius: 12, overflow: 'hidden', cursor: 'pointer',
                 transition: 'all 0.35s cubic-bezier(0.16,1,0.3,1)',
-                transform: isSelected ? 'translateY(-8px) scale(1.04)' : (isHover ? 'translateY(-4px)' : 'translateY(0)'),
+                transform: isSelected ? 'translateY(-6px) scale(1.03)' : (isHover ? 'translateY(-3px)' : 'translateY(0)'),
                 boxShadow: isSelected
-                  ? `0 8px 30px rgba(200,149,108,0.3), inset 0 0 0 1px ${THEME.accentDim}`
-                  : (isHover ? '0 6px 20px rgba(0,0,0,0.4)' : '0 2px 10px rgba(0,0,0,0.3)'),
+                  ? `0 6px 24px rgba(200,149,108,0.3), inset 0 0 0 1px ${THEME.accentDim}`
+                  : (isHover ? '0 4px 16px rgba(0,0,0,0.4)' : '0 2px 8px rgba(0,0,0,0.3)'),
                 opacity: selectedId && !isSelected ? 0.55 : 1, textAlign: 'left',
               }}
             >
               <div style={{
-                width: '100%', height: 100, overflow: 'hidden',
+                width: '100%', height: 84, overflow: 'hidden',
                 borderBottom: `1px solid ${THEME.border}`, position: 'relative',
               }}>
                 <img src={art.img} alt={art.title} style={{
@@ -485,19 +588,19 @@ function ArtGallery({ artData, onSelect, selectedId }) {
                   transition: 'transform 0.4s', transform: isHover ? 'scale(1.08)' : 'scale(1)',
                 }} />
                 {isSelected && <div style={{
-                  position: 'absolute', top: 6, right: 6, width: 8, height: 8, borderRadius: '50%',
+                  position: 'absolute', top: 5, right: 5, width: 7, height: 7, borderRadius: '50%',
                   background: THEME.accentGold, boxShadow: `0 0 8px ${THEME.accentGold}`,
                 }} />}
               </div>
-              <div style={{ padding: '10px 12px' }}>
+              <div style={{ padding: '8px 10px' }}>
                 <div style={{
-                  fontFamily: FONTS, fontSize: 13.5, fontWeight: 600,
+                  fontFamily: FONTS, fontSize: 12.5, fontWeight: 600,
                   color: isSelected ? THEME.textMain : THEME.textWarm,
-                  lineHeight: 1.25, marginBottom: 4,
+                  lineHeight: 1.25, marginBottom: 3,
                   whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
                 }}>{art.title}</div>
                 <div style={{
-                  fontFamily: FONTS_SANS, fontSize: 10.5, color: THEME.textSec,
+                  fontFamily: FONTS_SANS, fontSize: 10, color: THEME.textSec,
                   letterSpacing: '0.3px',
                   whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
                 }}>{art.artist} · {art.city}</div>
@@ -514,64 +617,106 @@ function ArtGallery({ artData, onSelect, selectedId }) {
 // MAIN APP
 // ═══════════════════════════════════════
 export default function App() {
-  const globeRef = useRef(null);
   const [selectedArt, setSelectedArt] = useState(null);
   const [aiWhisper, setAiWhisper] = useState('');
   const [isFetching, setIsFetching] = useState(false);
   const [userQ, setUserQ] = useState('');
   const [conversationHistory, setConversationHistory] = useState([]);
+  const [showCityPopup, setShowCityPopup] = useState(false);
 
-  // ─── Anthropic API call ───
-  // ─── 接入咱们自己的智谱 AI 后端 ───
-  const askArtist = useCallback(async (art, question) => {
+  // ─── Detect user's language from their input ───
+  const detectLang = useCallback((text) => {
+    // Simple heuristic: if mostly CJK chars → Chinese, else match input language
+    const cjk = text.match(/[\u4e00-\u9fff\u3400-\u4dbf]/g);
+    if (cjk && cjk.length > text.length * 0.15) return 'zh';
+    // Check for common patterns
+    if (/^[a-zA-Z\s.,!?'"()-]+$/.test(text.trim())) return 'en';
+    return 'auto'; // let the AI figure it out
+  }, []);
+
+  // ─── API call with language-aware prompting ───
+  const askArtist = useCallback(async (art, question, isGreeting = false) => {
     if (!question.trim()) return;
     setIsFetching(true);
     setAiWhisper('');
 
-    // 记录对话历史（前端显示用）
     const newHistory = [...conversationHistory, { role: 'user', content: question }];
 
     try {
-      // 🚨 核心修改：请求咱们自己的 Vercel 后端函数
       const response = await fetch('/api/whisper', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           paintingTitle: art.title,
           artistName: art.artist,
-          userQuestion: question // 把当前的问题发给后端
+          userQuestion: question,
+          isGreeting: isGreeting,
+          // Tell backend to keep response short for greetings
+          maxLength: isGreeting ? 'short' : 'normal',
         }),
       });
 
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      
       const data = await response.json();
-      
-      // 咱们的后端返回的字段名叫 whisper
       const reply = data.whisper || '...';
-      
       setAiWhisper(reply);
       setConversationHistory([...newHistory, { role: 'assistant', content: reply }]);
     } catch (err) {
       console.error('API Error:', err);
-      setAiWhisper('时空信号微弱…请再试一次。 / The signal across time is faint… please try again.');
+      // Fallback: use Anthropic API directly
+      try {
+        const lang = detectLang(question);
+        const langInstruction = lang === 'en'
+          ? 'Respond entirely in English.'
+          : lang === 'zh'
+          ? '请完全用中文回答。'
+          : 'Respond in the same language the user used.';
+
+        const sysPrompt = isGreeting
+          ? `You are ${art.artist}, speaking from across time about your work "${art.title}". Give a SHORT bilingual greeting (2-3 sentences total, one line Chinese, one line English). Be poetic but concise. Do NOT write a long monologue.`
+          : `You are ${art.artist}, speaking from across time about your work "${art.title}". ${langInstruction} Keep responses concise (2-4 sentences). Be poetic, personal, and insightful.`;
+
+        const apiRes = await fetch('https://api.anthropic.com/v1/messages', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            model: 'claude-sonnet-4-20250514',
+            max_tokens: isGreeting ? 150 : 300,
+            system: sysPrompt,
+            messages: [{ role: 'user', content: question }],
+          }),
+        });
+        const apiData = await apiRes.json();
+        const reply = apiData.content?.map(c => c.text || '').join('') || '...';
+        setAiWhisper(reply);
+        setConversationHistory([...newHistory, { role: 'assistant', content: reply }]);
+      } catch (fallbackErr) {
+        console.error('Fallback error:', fallbackErr);
+        setAiWhisper('The signal across time is faint… please try again.\n时空信号微弱…请再试一次。');
+      }
     } finally {
       setIsFetching(false);
     }
-  }, [conversationHistory]);
-  
+  }, [conversationHistory, detectLang]);
+
   const handleSelect = useCallback((art) => {
     setSelectedArt(art);
     setAiWhisper('');
     setUserQ('');
     setConversationHistory([]);
-    const greeting = `你好，${art.artist}。请用你最诗意的语言，告诉我创作《${art.title}》时的心境。`;
-    setTimeout(() => askArtist(art, greeting), 500);
+    setShowCityPopup(true);
+
+    // Shorter bilingual greeting prompt
+    const greeting = `Greet me briefly as ${art.artist}. One sentence in Chinese, one in English. Mention "${art.title}" and your feeling when creating it. Keep it under 40 words total.`;
+    setTimeout(() => askArtist(art, greeting, true), 400);
+
+    // Hide city popup after a while
+    setTimeout(() => setShowCityPopup(false), 8000);
   }, [askArtist]);
 
   const handleAsk = useCallback(() => {
     if (!selectedArt || !userQ.trim()) return;
-    askArtist(selectedArt, userQ);
+    askArtist(selectedArt, userQ, false);
     setUserQ('');
   }, [selectedArt, userQ, askArtist]);
 
@@ -579,6 +724,7 @@ export default function App() {
     setSelectedArt(null);
     setAiWhisper('');
     setConversationHistory([]);
+    setShowCityPopup(false);
   }, []);
 
   return (
@@ -593,6 +739,7 @@ export default function App() {
         @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(1.3); } }
         @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+        @keyframes popIn { from { opacity: 0; transform: translate(-80%, -60%) scale(0.85); } to { opacity: 1; transform: translate(-80%, -60%) scale(1); } }
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: rgba(200,149,108,0.25); border-radius: 4px; }
@@ -619,29 +766,34 @@ export default function App() {
 
       {/* Globe */}
       <div style={{ width: '100%', height: '100%', position: 'relative', zIndex: 1 }}>
-        <GlobeCanvas artData={ART_DATA} onPointClick={handleSelect} />
+        <GlobeCanvas artData={ART_DATA} onPointClick={handleSelect} selectedArt={selectedArt} showCityPopup={showCityPopup} />
       </div>
+
+      {/* City Info Popup on Globe */}
+      {selectedArt && showCityPopup && (
+        <CityPopup art={selectedArt} onClose={() => setShowCityPopup(false)} />
+      )}
 
       {/* Header */}
       <div style={{
-        position: 'absolute', top: 28, left: 32, pointerEvents: 'none', zIndex: 10,
+        position: 'absolute', top: 20, left: 24, pointerEvents: 'none', zIndex: 10,
         animation: 'fadeUp 1s ease',
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
           <div style={{
-            width: 44, height: 44, borderRadius: 12,
+            width: 40, height: 40, borderRadius: 10,
             background: `linear-gradient(135deg, ${THEME.accent}, ${THEME.accentGold})`,
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: 22, boxShadow: '0 4px 16px rgba(200,149,108,0.3)',
+            fontSize: 20, boxShadow: '0 4px 16px rgba(200,149,108,0.3)',
           }}>🎨</div>
           <div>
             <h1 style={{
-              fontFamily: FONTS, fontSize: 34, margin: 0, fontWeight: 600,
+              fontFamily: FONTS, fontSize: 30, margin: 0, fontWeight: 600,
               letterSpacing: '0.5px', color: THEME.textMain,
             }}>Art Globe</h1>
             <p style={{
-              fontFamily: FONTS_SANS, fontSize: 11, margin: '2px 0 0',
-              color: THEME.textSec, letterSpacing: '2.5px', textTransform: 'uppercase',
+              fontFamily: FONTS_SANS, fontSize: 10, margin: '1px 0 0',
+              color: THEME.textSec, letterSpacing: '2px', textTransform: 'uppercase',
             }}>Converse with masters across time</p>
           </div>
         </div>
@@ -655,12 +807,12 @@ export default function App() {
           animation: 'fadeUp 1.5s ease 0.5s both',
         }}>
           <div style={{
-            fontFamily: FONTS, fontSize: 20, color: THEME.accentLight,
+            fontFamily: FONTS, fontSize: 18, color: THEME.accentLight,
             opacity: 0.5, animation: 'float 3s ease-in-out infinite',
           }}>Click a golden point on the globe</div>
           <div style={{
-            fontFamily: FONTS_SANS, fontSize: 11, color: THEME.textSec,
-            marginTop: 6, letterSpacing: '1px', textTransform: 'uppercase',
+            fontFamily: FONTS_SANS, fontSize: 10, color: THEME.textSec,
+            marginTop: 5, letterSpacing: '1px', textTransform: 'uppercase',
           }}>or select a masterpiece below</div>
         </div>
       )}
