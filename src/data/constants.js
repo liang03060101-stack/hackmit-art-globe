@@ -52,12 +52,12 @@ export const ART_DATA = [
   },
   {
     id: 6, lat: -23.5615, lng: -46.6559, city: 'São Paulo', title: 'Abaporu', artist: 'Tarsila do Amaral', year: '1928',
-    img: 'https://wsrv.nl/?url=upload.wikimedia.org/wikipedia/en/e/ec/Abaporu.jpg&w=600&output=webp',
+    img: 'https://tse3-mm.cn.bing.net/th/id/OIP-C.KjMIlTfMUeXq0qdOtg7YzwHaIq?o=7rm=3&rs=1&pid=ImgDetMain&o=7&rm=3',
     desc: '巴西现代主义运动的标志性作品，以夸张的比例展现了浓郁的南美本土色彩。 / An iconic work of the Brazilian Modernist movement, featuring exaggerated proportions and vibrant South American colors.'
   },
   {
     id: 7, lat: 19.4326, lng: -99.1332, city: 'Mexico City', title: 'The Two Fridas', artist: 'Frida Kahlo', year: '1939',
-    img: 'https://wsrv.nl/?url=upload.wikimedia.org/wikipedia/en/1/1e/Frida_Kahlo_%281939%29_-_The_Two_Fridas.jpg&w=600&output=webp',
+    img: 'https://tse3-mm.cn.bing.net/th/id/OIP-C.6qq0TcXS9XinxFTOFrlblQHaHW?o=7rm=3&rs=1&pid=ImgDetMain&o=7&rm=3',
     desc: '弗里达的双重自画像，深刻地探索了她的多重血统与内心的情感挣扎。 / Kahlo\'s double self-portrait, profoundly exploring her dual heritage and inner emotional pain.'
   },
   {
@@ -71,7 +71,7 @@ export const ART_DATA = [
     desc: '表现主义代表作，画中扭曲的脸庞已成为现代人类存在性焦虑的终极象征。 / An Expressionist masterpiece, where the distorted face has become the ultimate symbol of modern existential anxiety.'
   },
   {
-    id: 7, lat: 39.9042, lng: 116.4074, city:  'Beijing', 
+    id: 10, lat: 39.9042, lng: 116.4074, city:  'Beijing', 
     museum: 'Beijing Fine Art Academy',title: 'Shrimp', artist: 'Qi Baishi', year: '1920s-1950s',
     img: 'https://uploads5.wikiart.org/images/qi-baishi/shrimp.jpg!Large.jpg',
     desc: 'Qi Baishi\'s iconic shrimp paintings capture life and movement with minimal brushstrokes. His mastery of ink wash technique transforms simple subjects into profound meditations on nature.',

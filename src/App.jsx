@@ -134,11 +134,10 @@ export default function App() {
       `}</style>
 
       {/* Background gradient */}
+      {/* 深空星海背景层 */}
       <div style={{
         position: 'absolute', inset: 0, zIndex: 0,
-        background: `radial-gradient(ellipse at 30% 30%, rgba(200,149,108,0.1) 0%, transparent 50%),
-                     radial-gradient(ellipse at 70% 60%, rgba(160,120,80,0.07) 0%, transparent 45%),
-                     linear-gradient(170deg, #1A1510 0%, #0F0D08 40%, #161210 100%)`,
+        background: 'radial-gradient(circle at center, #3A2A18 0%, #0F0C09 55%, #000000 100%)',
       }} />
 
       {/* Globe (always mounted, plays behind painting view) */}
