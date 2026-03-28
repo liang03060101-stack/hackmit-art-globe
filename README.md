@@ -1,16 +1,29 @@
-# React + Vite
+# 🌍 ART GLOBE: Echoes of Eternity
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> *"Converse with masters across time, and hear the whispers behind the world's greatest masterpieces."*
 
-Currently, two official plugins are available:
+## 💡 Inspiration
+Art is often locked behind glass in silent museums. We wanted to shatter that glass. What if you could not just look at *The Starry Night* or Qi Baishi's *Shrimp*, but actually **ask the artist what they were feeling** at that exact moment? We built Art Globe to resurrect the souls of history's greatest creators through AI, turning passive observation into an immersive, cross-century dialogue.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## ✨ What it does
+Art Globe is an interactive 3D WebGL experience. 
+- **Explore:** Spin a beautifully rendered, museum-lit 3D earth to discover world-renowned masterpieces based on their real-world geographical locations.
+- **Discover:** Click on golden glowing markers to pull up a cinematic gallery panel detailing the artwork's history.
+- **Converse:** Powered by a customized LLM, the "Artist's Whisper" feature allows users to talk directly to artists like Van Gogh, Da Vinci, and Qi Baishi in real-time. They respond in-character, matching the user's language, offering poetic insights into their state of mind.
 
-## React Compiler
+## 🛠️ How we built it
+- **Frontend:** React.js, Vite
+- **3D Rendering:** Three.js, Globe.gl (Customized with a warm, museum-aesthetic lighting and atmosphere)
+- **Animations:** Framer Motion (For buttery-smooth UI transitions)
+- **Backend & AI:** Vercel Serverless Functions + Zhipu AI / Anthropic API
+- **Styling:** Custom CSS with global typography (`Cormorant Garamond` & `DM Sans`)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🚧 Challenges we ran into
+Handling 3D canvas events alongside complex React state management was tricky. We also spent significant time tuning the AI prompt to ensure the artists didn't sound like robots, but rather poetic souls. Finally, managing CORS and API security forced us to quickly adapt and build a robust serverless backend.
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🚀 How to run it locally
+1. Clone the repo: `git clone [your-repo-link]`
+2. Install dependencies: `npm install`
+3. Create a `.env.local` file in the root and add your API key: `ZHIPU_API_KEY=your_key_here`
+4. Start the fullstack environment: `npx vercel dev`
+5. Open `http://localhost:3000` and start exploring!
