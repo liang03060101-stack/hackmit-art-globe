@@ -49,7 +49,7 @@ export default function GlobeCanvas({ artData, onPointClick, selectedArt }) {
     container.appendChild(renderer.domElement);
 
     scene.add(new THREE.AmbientLight(0xF5E6D3, 0.7));
-    const dirLight = new THREE.DirectionalLight(0xFFE4C4, 0.1);
+    const dirLight = new THREE.DirectionalLight(0xFFE4C4, 0.13);
     dirLight.position.set(5, 3, 5);
     scene.add(dirLight);
     const rimLight = new THREE.DirectionalLight(0xC8956C, 0.35);
@@ -62,8 +62,16 @@ export default function GlobeCanvas({ artData, onPointClick, selectedArt }) {
     const globeTex = textureLoader.load('https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg');
     const bumpTex = textureLoader.load('https://unpkg.com/three-globe/example/img/earth-topology.png');
     const globeMat = new THREE.MeshPhongMaterial({
-      map: globeTex, bumpMap: bumpTex, bumpScale: 0.02,
-      specular: new THREE.Color(0xC8956C), shininess: 14,
+        map: globeTex, bumpMap: bumpTex, bumpScale: 0.02,
+        // 👇 关键：给贴图加一层淡淡的“香槟色”底色，抵消冷蓝色
+        color: new THREE.Color(0xFFF4E0), 
+        
+        // 👇 关键：加一点暖色的自发光，让暗部也带点温度
+        emissive: new THREE.Color(0x332211), 
+        emissiveIntensity: 0.3,
+
+        specular: new THREE.Color(0xC8956C),
+        shininess: 14,
     });
     const globeMesh = new THREE.Mesh(globeGeo, globeMat);
     scene.add(globeMesh);
