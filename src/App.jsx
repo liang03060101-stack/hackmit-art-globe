@@ -5,7 +5,7 @@ import Globe from 'globe.gl';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const THEME = {
-  accent: '#15046b', 
+  accent: '#a6a0c7ff', 
   bg: 'rgba(15, 15, 20, 0.85)', 
   border: 'rgba(255, 255, 255, 0.1)',
   textMain: '#ffffff',
@@ -21,27 +21,27 @@ export default function App() {
     { 
       id: 1, lat: 48.8566, lng: 2.3522, city: 'Paris', title: 'Mona Lisa', artist: 'Leonardo da Vinci', year: '1503', 
       img: 'https://wsrv.nl/?url=upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg/800px-Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg&w=600&output=webp', 
-      desc: '现藏于卢浮宫，世界上最著名的肖像画，以其神秘的微笑闻名于世。' 
+      desc: '现藏于卢浮宫，被认为是意大利文艺复兴时期的杰作，被视为世上最有名、访问量最大且最常被模仿的艺术作品。该画中描绘了一位表情内敛的、微带笑容的女士，她的笑容有时被称作是“神秘的微笑”。' 
     },
     { 
       id: 2, lat: 40.7614, lng: -73.9776, city: 'New York', title: 'The Starry Night', artist: 'Vincent van Gogh', year: '1889', 
       img: 'https://wsrv.nl/?url=upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/1280px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg&w=600&output=webp', 
-      desc: '现藏于纽约MoMA，展现了梵高在精神病院期间看到的充满表现力的旋转星空。' 
+      desc: '现藏于纽约MoMA，是荷兰后印象派画家文森特·梵高一幅著名油画，展现了梵高在精神病院期间看到的充满表现力的旋转星空。' 
     },
     { 
       id: 3, lat: 35.7150, lng: 139.7734, city: 'Tokyo', title: 'The Great Wave off Kanagawa', artist: 'Katsushika Hokusai', year: '1831', 
       img: 'https://wsrv.nl/?url=upload.wikimedia.org/wikipedia/commons/thumb/0/0a/The_Great_Wave_off_Kanagawa.jpg/1280px-The_Great_Wave_off_Kanagawa.jpg&w=600&output=webp', 
-      desc: '浮世绘最著名的代表作，展现了巨大的海浪威胁着三艘小船。' 
+      desc: '浮世绘最著名的代表作,也是举世闻名的日本艺术作品。作品描绘了在神奈川海面上，三艘押送船的快速运输船在惊涛骇浪中艰难前行的情景。像爪子一样即将拍下，而远处的富士山则在波涛中静谧耸立，形成强烈对比。' 
     },
     { 
       id: 4, lat: 52.0804, lng: 4.3143, city: 'The Hague', title: 'Girl with a Pearl Earring', artist: 'Johannes Vermeer', year: '1665', 
       img: 'https://wsrv.nl/?url=upload.wikimedia.org/wikipedia/commons/thumb/0/0f/1665_Girl_with_a_Pearl_Earring.jpg/800px-1665_Girl_with_a_Pearl_Earring.jpg&w=600&output=webp', 
-      desc: '被称为“北方的蒙娜丽莎”，画中少女回头凝视，高光是艺术史上的神来之笔。' 
+      desc: '被称为“北方的蒙娜丽莎”，十七世纪荷兰画家扬·维米尔的作品。画作以少女戴着的珍珠耳环作为视角的焦点，现时画作存放在海牙的毛里茨住宅中。高光是艺术史上的神来之笔。' 
     },
     { 
       id: 5, lat: 40.4083, lng: -3.6946, city: 'Madrid', title: 'Guernica', artist: 'Pablo Picasso', year: '1937', 
       img: 'https://wsrv.nl/?url=upload.wikimedia.org/wikipedia/en/7/74/PicassoGuernica.jpg&w=600&output=webp', 
-      desc: '立体主义巨作，对西班牙内战中格尔尼卡大轰炸的强烈控诉。' 
+      desc: '立体主义巨作，当时正值西班牙内战。德国空军及意大利皇家空军在内战时期的1937年对格尔尼卡城进行了人类历史上第一次地毯式轰炸。毕加索受委托为巴黎世界博览会的西班牙区绘制一幅装饰性的画。作品描绘了经受炸弹蹂躏之后的格尔尼卡城。' 
     },
     { 
       id: 6, lat: -23.5615, lng: -46.6559, city: 'São Paulo', title: 'Abaporu', artist: 'Tarsila do Amaral', year: '1928', 
@@ -105,7 +105,7 @@ export default function App() {
   }, [artData]);
 
   return (
-    <div style={{ position: 'relative', width: '100vw', height: '100vh', background: '#0a0a0f', overflow: 'hidden', color: THEME.textMain, fontFamily: 'sans-serif' }}>
+    <div style={{ position: 'relative', width: '100vw', height: '100vh', background:"url('hackmit-art-globe/src/assets/bgimg.jpg')", overflow: 'hidden', color: THEME.textMain, fontFamily: 'sans-serif' }}>
       
       <div ref={containerRef} style={{ width: '100%', height: '100%' }} />
 
