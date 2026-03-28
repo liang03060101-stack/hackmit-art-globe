@@ -156,13 +156,18 @@ export default function PaintingView({ art, onBack, aiWhisper, isFetching, onAsk
           )}
           <img
             src={art.img} alt={art.title}
+            crossOrigin="anonymous" // 👇 极其关键：解决跨域图片的 onLoad 不触发问题
             onLoad={() => { imgLoadedRef.current = true; setImgLoaded(true); setImgError(false); }}
-            onError={() => { if (!imgLoadedRef.current) setImgError(true); }}
+            onError={(e) => { 
+                console.error("Image load error for:", art.title);
+                if (!imgLoadedRef.current) setImgError(true); 
+            }}
             style={{
               maxWidth: 'min(480px, 50vw)',
               maxHeight: '62vh',
               objectFit: 'contain',
-              display: imgOk ? 'block' : 'none',
+              // 👇 如果还是怕卡 Loading，可以激进一点，把这行注释掉，让图片一直 block
+              display: imgOk ? 'block' : 'none', 
               filter: 'drop-shadow(0 20px 80px rgba(0,0,0,0.85)) drop-shadow(0 0 40px rgba(200,149,108,0.08))',
               borderRadius: 2,
             }}
