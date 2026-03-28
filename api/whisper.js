@@ -21,7 +21,8 @@ export default async function handler(req, res) {
     const { paintingTitle, artistName, userQuestion } = req.body;
 
     // 检查环境变量中是否有智谱的 API Key
-    const API_KEY = process.env.ZHIPU_API_KEY; 
+    // const API_KEY = process.env.ZHIPU_API_KEY; 
+    const API_KEY = "ef8d7ce9cbbe4707afafa3c863a829c8.J95xzV30coOyjzju";
     if (!API_KEY) {
       console.error("❌ 致命错误：找不到 ZHIPU_API_KEY 环境变量！");
       return res.status(500).json({ whisper: "【系统提示】AI 艺术家的灵感源泉（API Key）已枯竭，请联系后端开发者配置。" });
