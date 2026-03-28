@@ -27,3 +27,8 @@ Handling 3D canvas events alongside complex React state management was tricky. W
 3. Create a `.env.local` file in the root and add your API key: `ZHIPU_API_KEY=your_key_here`
 4. Start the fullstack environment: `npx vercel dev`
 5. Open `http://localhost:3000` and start exploring!
+
+## 🤖 AI Usage
+> **Claude 3.5 Sonnet**: Used for architecting the "Artist’s Whisper" prompt engine and generating initial bilingual artist personas.
+> **GitHub Copilot**: Used as a coding assistant for boilerplate React components and complex Three.js shader logic.
+> **ChatGPT**: Used for refining project documentation and brainstorming UI/UX layouts.
