@@ -56,7 +56,7 @@ export default async function handler(req, res) {
         "Authorization": `Bearer ${API_KEY}`
       },
       body: JSON.stringify({
-        model: "glm-4", // 你也可以换成更快的 glm-4-flash
+        model: "glm-4-flash", // 你也可以换成更快的 glm-4-flash
         messages: [
           { role: "system", content: systemPrompt },
           { role: "user", content: finalQuestion }
