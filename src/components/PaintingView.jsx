@@ -8,39 +8,74 @@ export default function PaintingView({ art, onBack, aiWhisper, isFetching, onAsk
   const [visible, setVisible] = useState(false);
   const [imgLoaded, setImgLoaded] = useState(false);
   const [imgError, setImgError] = useState(false);
-  const imgLoadedRef = useRef(false); // track without stale closure
+  const imgLoadedRef = useRef(false);
+
+  // Physics refs for Butter-Smooth Lerp Animation
+  const targetX = useRef(0);
+  const targetY = useRef(0);
+  const currentX = useRef(0);
+  const currentY = useRef(0);
+  const requestRef = useRef(null);
+  const containerRef = useRef(null);
+
+  // High-performance animation loop
+  const animateParallax = () => {
+    currentX.current += (targetX.current - currentX.current) * 0.08;
+    currentY.current += (targetY.current - currentY.current) * 0.08;
+
+    if (containerRef.current) {
+      containerRef.current.style.setProperty('--mx', currentX.current.toFixed(4));
+      containerRef.current.style.setProperty('--my', currentY.current.toFixed(4));
+    }
+    requestRef.current = requestAnimationFrame(animateParallax);
+  };
 
   useEffect(() => {
+    requestRef.current = requestAnimationFrame(animateParallax);
     requestAnimationFrame(() => requestAnimationFrame(() => setVisible(true)));
-    return () => setVisible(false);
+    
+    return () => {
+      setVisible(false);
+      if (requestRef.current) cancelAnimationFrame(requestRef.current);
+    };
   }, []);
 
   useEffect(() => {
     setImgLoaded(false);
     setImgError(false);
     imgLoadedRef.current = false;
-    // Only show error after 12s AND image still hasn't loaded
     const t = setTimeout(() => {
       if (!imgLoadedRef.current) setImgError(true);
     }, 12000);
     return () => clearTimeout(t);
   }, [art?.id]);
 
+  const handleMouseMove = (e) => {
+    targetX.current = (e.clientX / window.innerWidth - 0.5) * 2;
+    targetY.current = (e.clientY / window.innerHeight - 0.5) * 2;
+  };
+
   if (!art) return null;
 
   const imgOk = imgLoaded && !imgError;
 
   return (
-    <div style={{
-      position: 'absolute', inset: 0, zIndex: 30,
-      background: '#0C0A07',
-      opacity: visible ? 1 : 0,
-      transition: 'opacity 0.5s ease',
-      display: 'grid',
-      gridTemplateColumns: 'minmax(180px, 1fr) auto minmax(260px, 1fr)',
-      gridTemplateRows: '1fr auto',
-      overflow: 'hidden',
-    }}>
+    <div 
+      ref={containerRef}
+      onMouseMove={handleMouseMove}
+      style={{
+        position: 'absolute', inset: 0, zIndex: 30,
+        background: '#0C0A07',
+        opacity: visible ? 1 : 0,
+        transition: 'opacity 0.5s ease',
+        display: 'grid',
+        gridTemplateColumns: 'minmax(180px, 1fr) auto minmax(260px, 1fr)',
+        gridTemplateRows: '1fr auto',
+        overflow: 'hidden',
+        '--mx': 0,
+        '--my': 0,
+      }}
+    >
       <style>{`
         @keyframes fadeIn  { from { opacity:0; }               to { opacity:1; } }
         @keyframes riseIn  { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:translateY(0); } }
@@ -48,6 +83,16 @@ export default function PaintingView({ art, onBack, aiWhisper, isFetching, onAsk
         .ask-input::placeholder { color: rgba(245,237,228,0.32); }
         .ask-input { caret-color: transparent; }
         .ask-input:focus { border-color: #C8956C !important; }
+        
+        .parallax-layer {
+          will-change: transform;
+        }
+
+        .parallax-year { transform: rotate(180deg) translate(calc(var(--my) * -18px), calc(var(--mx) * 18px)); }
+        .parallax-location { transform: translate(calc(var(--mx) * 25px), calc(var(--my) * 25px)); }
+        .parallax-glow { transform: scale(1.2) translate(calc(var(--mx) * -50px), calc(var(--my) * -50px)); }
+        .parallax-about { transform: translate(calc(var(--mx) * 16px), calc(var(--my) * 16px)); }
+        .parallax-whisper { transform: translate(calc(var(--mx) * 32px), calc(var(--my) * 32px)); }
       `}</style>
 
       {/* LEFT META COLUMN */}
@@ -58,7 +103,6 @@ export default function PaintingView({ art, onBack, aiWhisper, isFetching, onAsk
         padding: '0 28px 120px 24px',
         animation: visible ? 'riseIn 0.7s ease 0.3s both' : 'none',
       }}>
-        {/* Back button */}
         <button onClick={onBack} style={{
           position: 'absolute', top: 24, left: 24,
           background: 'transparent',
@@ -77,23 +121,30 @@ export default function PaintingView({ art, onBack, aiWhisper, isFetching, onAsk
           &#8592; Globe
         </button>
 
-        {/* Rotated year label */}
-        <div style={{
-          writingMode: 'vertical-rl', textOrientation: 'mixed',
-          transform: 'rotate(180deg)',
-          fontFamily: FONTS_SANS, fontSize: 10,
-          color: 'rgba(245,237,228,0.2)', letterSpacing: '3px',
-          textTransform: 'uppercase', marginBottom: 16, userSelect: 'none',
-        }}>{art.year}</div>
+        <div 
+          className="parallax-layer parallax-year"
+          style={{
+            writingMode: 'vertical-rl', textOrientation: 'mixed',
+            fontFamily: FONTS_SANS, fontSize: 10,
+            // Increased brightness for the year
+            color: 'rgba(245,237,228,0.55)', letterSpacing: '3px',
+            textTransform: 'uppercase', marginBottom: 16, userSelect: 'none',
+          }}
+        >
+          {art.year}
+        </div>
 
-        <div style={{
-          width: '100%',
-          maxWidth: 260,
-          border: 'none',
-          borderRadius: 10,
-          padding: '10px 10px 8px',
-          background: 'rgba(200,149,108,0.015)',
-        }}>
+        <div 
+          className="parallax-layer parallax-location"
+          style={{
+            width: '100%',
+            maxWidth: 260,
+            border: 'none',
+            borderRadius: 10,
+            padding: '10px 10px 8px',
+            background: 'rgba(200,149,108,0.015)',
+          }}
+        >
           <div style={{
             fontFamily: FONTS_SANS, fontSize: 9.5,
             color: 'rgba(200,149,108,0.42)', letterSpacing: '1.6px',
@@ -107,7 +158,8 @@ export default function PaintingView({ art, onBack, aiWhisper, isFetching, onAsk
           }}>{art.museum}</div>
           <div style={{
             fontFamily: FONTS_SANS, fontSize: 12,
-            color: 'rgba(245,237,228,0.34)', textAlign: 'right',
+            // Increased brightness for the city
+            color: 'rgba(245,237,228,0.55)', textAlign: 'right',
           }}>{art.city}</div>
         </div>
       </div>
@@ -121,14 +173,15 @@ export default function PaintingView({ art, onBack, aiWhisper, isFetching, onAsk
         position: 'relative',
         minWidth: 0,
       }}>
-        {/* Glow behind painting */}
-        <div style={{
-          position: 'absolute', inset: '10% 5%',
-          background: 'radial-gradient(ellipse at center, rgba(200,149,108,0.06) 0%, transparent 70%)',
-          pointerEvents: 'none', zIndex: 0,
-        }} />
+        <div 
+          className="parallax-layer parallax-glow"
+          style={{
+            position: 'absolute', inset: '10% 5%',
+            background: 'radial-gradient(ellipse at center, rgba(200,149,108,0.06) 0%, transparent 70%)',
+            pointerEvents: 'none', zIndex: 0,
+          }} 
+        />
 
-        {/* Image */}
         <div style={{
           position: 'relative', zIndex: 1,
           display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -157,17 +210,15 @@ export default function PaintingView({ art, onBack, aiWhisper, isFetching, onAsk
           )}
           <img
             src={art.img} alt={art.title}
-            crossOrigin="anonymous" // 👇 极其关键：解决跨域图片的 onLoad 不触发问题
+            crossOrigin="anonymous"
             onLoad={() => { imgLoadedRef.current = true; setImgLoaded(true); setImgError(false); }}
             onError={(e) => { 
-                console.error("Image load error for:", art.title);
                 if (!imgLoadedRef.current) setImgError(true); 
             }}
             style={{
               maxWidth: 'min(480px, 50vw)',
               maxHeight: '62vh',
               objectFit: 'contain',
-              // 👇 如果还是怕卡 Loading，可以激进一点，把这行注释掉，让图片一直 block
               display: imgOk ? 'block' : 'none', 
               filter: 'drop-shadow(0 20px 80px rgba(0,0,0,0.85)) drop-shadow(0 0 40px rgba(200,149,108,0.08))',
               borderRadius: 2,
@@ -175,7 +226,6 @@ export default function PaintingView({ art, onBack, aiWhisper, isFetching, onAsk
           />
         </div>
 
-        {/* Title + artist — always visible below painting */}
         <div style={{
           marginTop: 28, textAlign: 'center', zIndex: 1,
           animation: visible ? 'riseIn 0.7s ease 0.4s both' : 'none',
@@ -193,7 +243,6 @@ export default function PaintingView({ art, onBack, aiWhisper, isFetching, onAsk
             {art.artist}
           </p>
         </div>
-
       </div>
 
       {/* RIGHT: DETAILS + AI */}
@@ -205,13 +254,16 @@ export default function PaintingView({ art, onBack, aiWhisper, isFetching, onAsk
         animation: visible ? 'riseIn 0.7s ease 0.35s both' : 'none',
         minWidth: 0,
       }}>
-        <div style={{
-          width: '100%', maxWidth: 360,
-          border: '1px solid rgba(200,149,108,0.07)',
-          borderRadius: 12, padding: '15px 16px',
-          background: 'rgba(200,149,108,0.015)',
-          marginBottom: 14,
-        }}>
+        <div 
+          className="parallax-layer parallax-about"
+          style={{
+            width: '100%', maxWidth: 360,
+            border: '1px solid rgba(200,149,108,0.07)',
+            borderRadius: 12, padding: '15px 16px',
+            background: 'rgba(200,149,108,0.015)',
+            marginBottom: 14,
+          }}
+        >
           <div style={{
             fontFamily: FONTS_SANS, fontSize: 9.5,
             color: 'rgba(200,149,108,0.42)', textTransform: 'uppercase',
@@ -220,19 +272,23 @@ export default function PaintingView({ art, onBack, aiWhisper, isFetching, onAsk
           <div
             style={{
               fontFamily: FONTS_SANS, fontSize: 12.5, lineHeight: 1.75,
-              color: 'rgba(245,237,228,0.44)',
+              // Slightly dimmed for better reading comfort
+              color: 'rgba(245,237,228,0.65)',
             }}
           >
             {art.desc}
           </div>
         </div>
 
-        <div style={{
-          width: '100%', maxWidth: 360,
-          border: 'none',
-          borderRadius: 12, padding: '14px 16px',
-          background: 'rgba(200,149,108,0.015)',
-        }}>
+        <div 
+          className="parallax-layer parallax-whisper"
+          style={{
+            width: '100%', maxWidth: 360,
+            border: 'none',
+            borderRadius: 12, padding: '14px 16px',
+            background: 'rgba(200,149,108,0.015)',
+          }}
+        >
           <div style={{
             display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10,
           }}>
@@ -251,7 +307,10 @@ export default function PaintingView({ art, onBack, aiWhisper, isFetching, onAsk
           </div>
           <div style={{
             fontFamily: FONTS, fontSize: 15.5, lineHeight: 1.8,
-            fontStyle: 'italic', color: 'rgba(232,213,191,0.78)', minHeight: 44,
+            fontStyle: 'italic', 
+            // Dimmed to match the About section
+            color: 'rgba(232,213,191,0.65)', 
+            minHeight: 44,
           }}>
             {isFetching ? (
               <span style={{ color: 'rgba(245,237,228,0.3)', fontStyle: 'normal', fontSize: 13 }}>
