@@ -85,4 +85,22 @@ export const ART_DATA = [
       artFact: 'Aivazovsky painted over 6,000 works — nearly all seascapes — making him one of the most prolific artists in history.',
     },
   },
+  {
+    id: 7, 
+    lat: 39.9042, 
+    lng: 116.4074, 
+    city:  'Beijing', 
+    museum: 'Beijing Fine Art Academy',
+    title: 'Shrimp', 
+    artist: 'Qi Baishi', 
+    year: '1920s-1950s',
+    img: 'https://uploads5.wikiart.org/images/qi-baishi/shrimp.jpg!Large.jpg',
+    desc: 'Qi Baishi\'s iconic shrimp paintings capture life and movement with minimal brushstrokes. His mastery of ink wash technique transforms simple subjects into profound meditations on nature.',
+    color: '#8B7D6B',
+    cityInfo: {
+      otherWorks: ['Twelve Landscape Screens', 'Peaches', 'Crabs', 'Album Leaves'],
+      museums: ['Beijing Fine Art Academy', 'Hunan Provincial Museum', 'National Art Museum of China'],
+      artFact: 'Qi Baishi painted shrimp for over 40 years, perfecting his technique. The Beijing Fine Art Academy holds over 2,000 of his works, including many signature flower-and-bird paintings.',
+    },
+    },
 ];
