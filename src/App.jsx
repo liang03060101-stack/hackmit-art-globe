@@ -96,7 +96,7 @@ export default function App() {
       setShowPainting(true);
       const greeting = `Greet me briefly as ${art.artist}. One sentence in Chinese, one in English. Mention "${art.title}" and your feeling when creating it. Keep it under 40 words total.`;
       askArtist(art, greeting, true);
-    }, 1300);
+    }, 700);
   }, [askArtist]);
 
   // ─── Back to globe ───
@@ -165,24 +165,27 @@ export default function App() {
         </div>
       )}
 
-      {/* Center hint */}
+      {/* Top-right instruction hint */}
       {!selectedArt && (
         <div style={{
-          position: 'absolute', top: '46%', left: '50%',
-          transform: 'translate(-50%, -50%)',
-          zIndex: 10, pointerEvents: 'none', textAlign: 'center',
-          animation: 'fadeUp 1.5s ease 0.5s both',
+          position: 'absolute', top: 28, right: 28,
+          zIndex: 10, pointerEvents: 'none', textAlign: 'right',
+          animation: 'fadeUp 1.2s ease 0.4s both',
         }}>
           <div style={{
-            fontFamily: FONTS, fontSize: 20,
-            color: THEME.accentLight, opacity: 0.5,
-            animation: 'float 3s ease-in-out infinite',
-          }}>Click a golden point on the globe</div>
-          <div style={{
             fontFamily: FONTS_SANS, fontSize: 11,
-            color: THEME.textSec, marginTop: 6,
-            letterSpacing: '1px', textTransform: 'uppercase',
-          }}>or select a masterpiece below</div>
+            color: THEME.textSec, letterSpacing: '1.8px',
+            textTransform: 'uppercase', lineHeight: 1.7,
+          }}>
+            <span style={{
+              display: 'inline-block',
+              color: THEME.accentLight, opacity: 0.75,
+              animation: 'float 3s ease-in-out infinite',
+            }}>✦</span>
+            {' '}Tap a glowing point to explore
+            <br />
+            <span style={{ opacity: 0.55 }}>or browse the gallery below</span>
+          </div>
         </div>
       )}
 
